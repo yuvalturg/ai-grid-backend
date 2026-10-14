@@ -9,6 +9,29 @@ import (
 	clientpkg "github.com/osac-project/ai-grid-backend/client"
 )
 
+func TestPing(t *testing.T) {
+	address := os.Getenv("AI_GRID_GRPC_ADDRESS")
+	if address == "" {
+		t.Skip("AI_GRID_GRPC_ADDRESS is not set; run via hack/test-kind.sh")
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	client, err := clientpkg.NewBuilder().SetAddress(address).SetPlaintext(true).Build(ctx)
+	if err != nil {
+		t.Fatalf("build gRPC client: %v", err)
+	}
+	defer client.Close()
+
+	message, err := client.Ping(ctx, "Ada")
+	if err != nil {
+		t.Fatalf("ping backend: %v", err)
+	}
+	if message != "Welcome, Ada!" {
+		t.Fatalf("expected Welcome, Ada!, got %q", message)
+	}
+}
+
 func TestListManagedClusters(t *testing.T) {
 	address := os.Getenv("AI_GRID_GRPC_ADDRESS")
 	if address == "" {

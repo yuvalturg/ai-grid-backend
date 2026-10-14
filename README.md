@@ -101,7 +101,7 @@ The script:
 5. Creates two real `ManagedCluster` custom resources.
 6. Creates the `ai-grid` Keycloak realm and two sample Organizations.
 7. Port-forwards the backend gRPC Service.
-8. Runs typed Go gRPC integration tests and verifies both clusters and tenants.
+8. Runs typed Go gRPC integration tests and verifies ping, clusters, and tenants.
 
 The sample resources are defined in
 [deploy/kind/sample-managedclusters.yaml](deploy/kind/sample-managedclusters.yaml).
